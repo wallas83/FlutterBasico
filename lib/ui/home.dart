@@ -9,15 +9,35 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
+  /*
+ * Venus: 0.91
+ * Earth: 1.00
+ * Pluto: 0.06
+ * Mars: 0.38
+ */
+
+  final TextEditingController _weightController = new TextEditingController();
+
   int radioValue = 0;
+  double _finalResult = 0.0;
 
-  void handleRadioValueChanged( int value){
-      setState(() {
-        radioValue = value;
+  void handleRadioValueChanged(int value) {
+    setState(() {
+      radioValue = value;
 
-        print(radioValue);
-      });
+      switch (radioValue) {
+        case 0:
+          _finalResult = calculateWeight(_weightController.text, 0.06);
+          break;
+        case 1:
+          _finalResult = calculateWeight(_weightController.text, 0.36);
+          break;
+        case 2:
+          _finalResult = calculateWeight(_weightController.text, 0.91);
+      }
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -44,7 +64,7 @@ class HomeState extends State<Home> {
               child: new Column(
                 children: <Widget>[
                   new TextField(
-                    controller: null,
+                    controller: _weightController,
                     keyboardType: TextInputType.number,
                     decoration: new InputDecoration(
                       labelText: 'Your Weight on Earth',
@@ -60,29 +80,29 @@ class HomeState extends State<Home> {
                     children: <Widget>[
                       //radio buttons
                       new Radio<int>(
-                        activeColor: Colors.brown,
-                        value: 0,
-                        groupValue: radioValue,
-                        onChanged: handleRadioValueChanged),
+                          activeColor: Colors.brown,
+                          value: 0,
+                          groupValue: radioValue,
+                          onChanged: handleRadioValueChanged),
                       new Text(
                         "pluto",
                         style: new TextStyle(color: Colors.white30),
                       ),
 
                       new Radio<int>(
-                        activeColor: Colors.redAccent,
-                        value: 1,
-                        groupValue: radioValue,
-                        onChanged: handleRadioValueChanged),
+                          activeColor: Colors.redAccent,
+                          value: 1,
+                          groupValue: radioValue,
+                          onChanged: handleRadioValueChanged),
                       new Text(
                         "mars",
                         style: new TextStyle(color: Colors.white30),
                       ),
                       new Radio<int>(
-                        activeColor: Colors.yellowAccent,
-                        value: 2,
-                        groupValue: radioValue,
-                        onChanged: handleRadioValueChanged),
+                          activeColor: Colors.yellowAccent,
+                          value: 2,
+                          groupValue: radioValue,
+                          onChanged: handleRadioValueChanged),
                       new Text(
                         "venus",
                         style: new TextStyle(color: Colors.white30),
@@ -92,11 +112,9 @@ class HomeState extends State<Home> {
                   new Padding(padding: new EdgeInsets.all(15.6)),
                   //result text
                   new Text(
-                    "hello there",
+                    " $_finalResult",
                     style: new TextStyle(
-                      color: Colors.white30,
-                      fontWeight: FontWeight.w900
-                    ),
+                        color: Colors.white30, fontWeight: FontWeight.w900),
                   )
                 ],
               ),
@@ -105,5 +123,14 @@ class HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  double calculateWeight(String weight, double multiplier) {
+    if (int.parse(weight).toString().isNotEmpty && int.parse(weight) > 0) {
+      return int.parse(weight) * multiplier;
+    } else {
+      print("wrong");
+      return int.parse("180") * 0.38;
+    }
   }
 }
