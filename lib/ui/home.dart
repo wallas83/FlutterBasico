@@ -20,6 +20,7 @@ class HomeState extends State<Home> {
 
   int radioValue = 0;
   double _finalResult = 0.0;
+  String _formattedTExt = "";
 
   void handleRadioValueChanged(int value) {
     setState(() {
@@ -28,12 +29,15 @@ class HomeState extends State<Home> {
       switch (radioValue) {
         case 0:
           _finalResult = calculateWeight(_weightController.text, 0.06);
+          _formattedTExt = "your weight on Pluto is ${_finalResult.toStringAsFixed(1)}";
           break;
         case 1:
           _finalResult = calculateWeight(_weightController.text, 0.36);
+          _formattedTExt = "your weight on Mars is ${_finalResult.toStringAsFixed(1)}";
           break;
         case 2:
           _finalResult = calculateWeight(_weightController.text, 0.91);
+          _formattedTExt = "your weight on Venus is ${_finalResult.toStringAsFixed(1)}";
       }
     });
   }
@@ -47,7 +51,7 @@ class HomeState extends State<Home> {
         centerTitle: true,
         backgroundColor: Colors.black38,
       ),
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: Colors.white,
       body: new Container(
         alignment: Alignment.topCenter,
         child: new ListView(
@@ -86,7 +90,7 @@ class HomeState extends State<Home> {
                           onChanged: handleRadioValueChanged),
                       new Text(
                         "pluto",
-                        style: new TextStyle(color: Colors.white30),
+                        style: new TextStyle(color: Colors.black54),
                       ),
 
                       new Radio<int>(
@@ -96,7 +100,7 @@ class HomeState extends State<Home> {
                           onChanged: handleRadioValueChanged),
                       new Text(
                         "mars",
-                        style: new TextStyle(color: Colors.white30),
+                        style: new TextStyle(color: Colors.black54),
                       ),
                       new Radio<int>(
                           activeColor: Colors.yellowAccent,
@@ -105,16 +109,17 @@ class HomeState extends State<Home> {
                           onChanged: handleRadioValueChanged),
                       new Text(
                         "venus",
-                        style: new TextStyle(color: Colors.white30),
+                        style: new TextStyle(color: Colors.black54),
                       ),
                     ],
                   ),
                   new Padding(padding: new EdgeInsets.all(15.6)),
                   //result text
                   new Text(
-                    " $_finalResult",
+                      _weightController.text.isEmpty ? "Please enter weight" : "$_formattedTExt lbs",
+                    //" $_formattedTExt lbs",
                     style: new TextStyle(
-                        color: Colors.white30, fontWeight: FontWeight.w900),
+                        color: Colors.black54, fontWeight: FontWeight.w900),
                   )
                 ],
               ),
